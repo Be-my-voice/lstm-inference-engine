@@ -1,8 +1,6 @@
 import base64
 import cv2
 import mediapipe as mp
-from mediapipe.tasks import python
-from mediapipe.tasks.python import vision
 import numpy as np
 
 mp_hands = mp.solutions.hands
@@ -24,8 +22,6 @@ fh.close()
 # the temperary converted video generated from base64 file should be in the tempFiles folder named "video.avi"
 cap = cv2.VideoCapture("tempFiles/video.avi")
 
-framecount = 0
-
 while cap.isOpened():
     
     ret, frame = cap.read()
@@ -33,26 +29,19 @@ while cap.isOpened():
     if not ret:
         break
 
-    framecount += 1
-
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     results = hands.process(frame_rgb)
 
     if results.multi_hand_landmarks:
-        i = 0
         for landmarks in results.multi_hand_landmarks[0].landmark:
             arrx.append(landmarks.x)
             arry.append(landmarks.y)
-            i += 1
 
-        j = 0
-        for landmarks in results.multi_hand_landmarks[0].landmark:
+        for landmarks in results.multi_hand_landmarks[1].landmark:
             arrx.append(landmarks.x)
             arry.append(landmarks.y)
-            j += 1
 
-        print(str(framecount) + " : " + str(i) +" | "+ str(j))
         continue
 
     #           mp_drawing.draw_landmarks(frame, landmarks, mp_hands.HAND_CONNECTIONS)
@@ -61,9 +50,8 @@ while cap.isOpened():
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break
-    print("a null frame")
 
-    for i in [0,42]:
+    for i in range(42):
         arrx.append(0)
         arry.append(0)
 
@@ -73,12 +61,10 @@ while cap.isOpened():
 cap.release()
 cv2.destroyAllWindows()
 
+# x coordinates
 arrxnp = np.array(arrx)
+# y coordinates
 arrynp = np.array(arry)
 
 print(arrxnp)
 print(arrynp)
-
-print(len(arrxnp))
-print(len(arrynp))
-print(framecount)
