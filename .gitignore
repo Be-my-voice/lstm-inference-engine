@@ -1,3 +1,4 @@
 *.avi
 *.txt
 /tempFiles
+/src_original

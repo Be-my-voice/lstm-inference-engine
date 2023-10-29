@@ -53,6 +53,7 @@ while cap.isOpened():
             j += 1
 
         print(str(framecount) + " : " + str(i) +" | "+ str(j))
+        continue
 
     #           mp_drawing.draw_landmarks(frame, landmarks, mp_hands.HAND_CONNECTIONS)
 
@@ -60,16 +61,20 @@ while cap.isOpened():
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break
+    print("a null frame")
+
+    for i in [0,42]:
+        arrx.append(0)
+        arry.append(0)
+
+    print(arrx)
+    print(arry)
 
 cap.release()
 cv2.destroyAllWindows()
 
 arrxnp = np.array(arrx)
 arrynp = np.array(arry)
-
-zerosx = (arrxnp == 0)
-
-print(np.sum(zerosx))
 
 print(arrxnp)
 print(arrynp)
